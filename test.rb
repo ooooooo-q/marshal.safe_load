@@ -104,3 +104,23 @@ class TestComplex  < Minitest::Test
   end
 
 end
+
+class TestPermitted  < Minitest::Test
+  def setup
+    adapter = ::Net::WriteAdapter.new("dummy", :send)
+    @dump = Marshal.dump({"aa": adapter})
+  end
+
+  def test_foo
+    assert_equal "\x04\b{\x06:\aaao:\x16Net::WriteAdapter\a:\f@socketI\"\ndummy\x06:\x06ET:\x0F@method_id:\tsend", @dump
+  end
+
+  def test_load
+    assert_equal '{:aa=>#<Net::WriteAdapter socket="dummy">}', Marshal.load(@dump).inspect
+  end
+
+  def test_safe_load
+    assert_equal '{:aa=>#<Net::WriteAdapter socket="dummy">}', Marshal.safe_load(@dump, [::Net::WriteAdapter]).inspect
+  end
+
+end

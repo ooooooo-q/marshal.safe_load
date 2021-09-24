@@ -1,10 +1,10 @@
 module Marshal
 
-  def self.safe_load(str, allowClass = nil)
-    allowclass ||= [String, Hash, FalseClass, TrueClass, Symbol, Numeric, NilClass, Array]
+  def self.safe_load(str, permitted_classes = [])
+    permitted_classes = permitted_classes + [String, Hash, FalseClass, TrueClass, Symbol, Numeric, NilClass, Array]
 
     f = proc { |obj|
-      unless allowclass.any? {|c| obj.is_a?(c) }
+      unless permitted_classes.any? {|c| obj.is_a?(c) }
         raise ::TypeError, "unexepected type #{obj.class}" 
       end
       obj
