@@ -1,6 +1,6 @@
 module Marshal
 
-  def self.safe_load(str, permitted_classes = [])
+  def self.safe_load(str, permitted_classes: [])
     permitted_classes = permitted_classes + [String, Hash, FalseClass, TrueClass, Symbol, Numeric, NilClass, Array]
 
     f = proc { |obj|

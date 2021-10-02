@@ -120,7 +120,7 @@ class TestPermitted  < Minitest::Test
   end
 
   def test_safe_load
-    assert_equal '{:aa=>#<Net::WriteAdapter socket="dummy">}', Marshal.safe_load(@dump, [::Net::WriteAdapter]).inspect
+    assert_equal '{:aa=>#<Net::WriteAdapter socket="dummy">}', Marshal.safe_load(@dump, permitted_classes: [::Net::WriteAdapter]).inspect
   end
 
 end
