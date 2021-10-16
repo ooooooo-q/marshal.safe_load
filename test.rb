@@ -124,3 +124,33 @@ class TestPermitted  < Minitest::Test
   end
 
 end
+
+
+class Cat  
+  def self.const_missing(name)
+    `touch me`
+  end
+  # class Test
+  # end
+end
+
+
+class TestConstMissing  < Minitest::Test
+  def setup
+    @dump = "\x04\bo:\x0ECat::Test\x00" # Marshal.dump(Cat::Test.new)
+  end
+
+
+  def test_load
+    assert_raises(ArgumentError) {
+      Marshal.load(@dump)
+    }
+  end
+
+  def test_safe_load
+    assert_raises(ArgumentError) {
+      Marshal.load(@dump, permitted_classes: [:Cat])
+    }
+  end
+
+end

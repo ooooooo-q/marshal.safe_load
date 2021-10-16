@@ -17,3 +17,9 @@ irb(main):004:0> Marshal.safe_load(Marshal.dump(Module))
 ...
 StandardError (unexepected type Class)
 ```
+
+
+```
+# テスト実行
+ruby test.rb
+```
